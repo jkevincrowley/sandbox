@@ -22,6 +22,73 @@ var map = new mapboxgl.Map({
     zoom: 2.8
 });
     
+map.on('load', function () {
+    // Add a symbol layer.
+    map.addLayer({
+        "id": "symbols",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                -12.125005, 
+                                -77.029291
+                            ]
+                        }
+                    },
+                    {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                -51.761244, 
+                                -72.837163
+                            ]
+                        }
+                    },
+                    {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                -91.34033203125,
+                                0.01647949196029245
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "layout": {
+            "icon-image": "rocket-15"
+        }
+    });
+
+    // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+    map.on('click', 'symbols', function (e) {
+        map.flyTo({center: e.features[0].geometry.coordinates});
+    });
+
+    // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+    map.on('mouseenter', 'symbols', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'symbols', function () {
+        map.getCanvas().style.cursor = '';
+    });
+});
+    
 
 </script>
     
